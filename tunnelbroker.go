@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 type Client struct {
@@ -49,4 +50,28 @@ func (c *Client) TunnelInfo() (Tunnels, error) {
 	}
 
 	return tunnels, nil
+}
+
+func (c *Client) UpdateTunnel(tunnelId int, ipAddress string) error {
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", "https://ipv4.tunnelbroker.net/nic/update", nil)
+	req.SetBasicAuth(c.Username, c.Password)
+
+	q := req.URL.Query()
+	q.Add("hostname", strconv.Itoa(tunnelId))
+
+	req.URL.RawQuery = q.Encode()
+
+	resp, err := client.Do(req)
+	defer resp.Body.Close()
+	if err != nil {
+		return err
+	}
+
+	// body, err := ioutil.ReadAll(resp.Body)
+	// if err != nil {
+	// 	return err
+	// }
+
+	return nil
 }
