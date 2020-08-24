@@ -17,7 +17,7 @@ type Tunnels struct {
 }
 
 type Tunnel struct {
-	Id          int    `xml:"id,attr"`
+	ID          int    `xml:"id,attr"`
 	Description string `xml:"description"`
 	ServerV4    string `xml:"serverv4"`
 	ClientV4    string `xml:"clientv4"`
